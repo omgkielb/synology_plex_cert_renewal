@@ -23,12 +23,10 @@ letsencrypt_cert_folder=/usr/syno/etc/certificate/system/default
 cert_prefix="ECC-"
 
 ### Used in below scripts ###
-current_date=$(date +"%s")
 current_certificate_date=$(openssl-3 x509 -enddate -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem" | cut -d'=' -f2)
-current_certificate_timestamp=$(date -d "$current_certificate_date" +"%s")
 
 ## Check if PFX file exists or if the certificate is past its renewal date ##
-if [[ ! -f "$p12_file_path" ]] || (( current_date > current_certificate_timestamp )); then
+if [[ ! -f "$p12_file_path" ]] || ! openssl-3 x509 -checkend 86400 -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem"; then
   echo "Generating the p12 certificate file."
   rm -f "$p12_file_path"
   openssl-3 pkcs12 -export -out "$p12_file_path" \
@@ -40,8 +38,8 @@ if [[ ! -f "$p12_file_path" ]] || (( current_date > current_certificate_timestam
     -certpbe AES-256-CBC -keypbe AES-256-CBC -macalg SHA256
   chmod +r "$p12_file_path"
   chown admin:users "$p12_file_path"
-  echo "Restarting Plex Media Server."
   echo "Plex Certificate will expire on the ${current_certificate_date}."
+  echo "Restarting Plex Media Server."
   synopkg restart PlexMediaServer
   echo "Done."
 else
