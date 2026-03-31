@@ -1,12 +1,12 @@
 #!/bin/sh
 
-#### Inputs ####
+### Inputs ###
 # File Name and Path for naming file and cert conversion #
 # File needs to be added to Plex under Settings -> Network -> Custom certificate location #
 # Ensure you also update the Custom certificate domain and Custom server access URLs on the same plage #
 plex_cert_path=PATH_TO_PFX_FILE
 domain_name=NAME_OF_FILE
-# Ensure Plex has access to system path/file #
+# Ensure Plex user has access to system path/file #
 p12_file_path="$plex_cert_path/$domain_name.pfx"
 # Password needs to be added to Plex under Settings -> Network -> Custom certificate encryption key #
 # Update to your own password #
