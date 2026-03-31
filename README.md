@@ -43,7 +43,7 @@ To ensure the certificate stays updated, you must automate the script.
 
 ## Disclaimer & Support Policy
 Use at your own discretion: This script is provided "as-is." While it is actively used and maintained for my personal Synology NAS, I cannot guarantee it will work for every environment.
-- **No Legacy Support:** I will not be providing updates or support for older DSM versions (DSM 6.x or earlier). \
+- **No Legacy Support:** I will not be providing updates or support for older DSM versions (DSM 6.x or earlier).
 - **Bug Reports:** I am currently not accepting requests for bug fixes or maintenance to suit specific user configurations. If you encounter issues on your hardware, you are encouraged to fork the repository and adjust the code as needed. 
 
 ---
