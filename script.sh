@@ -2,7 +2,7 @@
 
 ### Inputs ###
 # File needs to be added to Plex under Settings -> Network -> Custom certificate location #
-# Ensure you also update the Custom certificate domain and Custom server access URLs on the same plage #
+# Ensure you also update the Custom certificate domain and Custom server access URLs on the same page #
 plex_cert_path=PATH_TO_PFX_FILE
 domain_name=NAME_OF_FILE
 # File Path and Name used to generate and place PFX in specific Directory #
@@ -18,7 +18,7 @@ letsencrypt_cert_folder=/usr/syno/etc/certificate/system/default
 ## There will be both RSA/ECC in this folder with DSM 7 ##
 # ECC: You want high security with better performance, support modern devices, increased mobile user speed #
 # RSA: You must support very old legacy systems, or your NAS has limited support for ECC #
-# If unsure of your certs just uncomment the below, enable task to via email to see outputs. #
+# If unsure of your certs just uncomment the below, enable task to send output via email #
 # ls -al $letsencrypt_cert_folder
 cert_prefix="ECC-"
 
