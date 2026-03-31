@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 ### Inputs ###
-# File Name and Path for naming file and cert conversion #
 # File needs to be added to Plex under Settings -> Network -> Custom certificate location #
 # Ensure you also update the Custom certificate domain and Custom server access URLs on the same plage #
 plex_cert_path=PATH_TO_PFX_FILE
 domain_name=NAME_OF_FILE
+# File Path and Name used to generate and place PFX in specific Directory #
 # Ensure Plex user has access to system path/file #
 p12_file_path="$plex_cert_path/$domain_name.pfx"
 # Password needs to be added to Plex under Settings -> Network -> Custom certificate encryption key #
@@ -24,7 +24,7 @@ cert_prefix="ECC-"
 
 ### Used in below scripts ###
 current_date=$(date +"%s")
-current_certificate_date=$(openssl x509 -enddate -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem" | cut -d'=' -f2)
+current_certificate_date=$(openssl-3 x509 -enddate -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem" | cut -d'=' -f2)
 current_certificate_timestamp=$(date -d "$current_certificate_date" +"%s")
 
 ## Check if PFX file exists or if the certificate is past its renewal date ##
@@ -42,7 +42,7 @@ if [[ ! -f "$p12_file_path" ]] || (( current_date > current_certificate_timestam
   chown admin:users "$p12_file_path"
   echo "Restarting Plex Media Server."
   echo "Plex Certificate will expire on the ${current_certificate_date}."
-  /bin/systemctl restart pkgctl-PlexMediaServer
+  synopkg restart PlexMediaServer
   echo "Done."
 else
   echo "Plex Certificate does not need to be replaced."
