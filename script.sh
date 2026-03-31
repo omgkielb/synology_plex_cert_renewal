@@ -26,7 +26,7 @@ cert_prefix="ECC-"
 current_certificate_date=$(openssl-3 x509 -enddate -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem" | cut -d'=' -f2)
 
 ## Check if PFX file exists or if the certificate is past its renewal date ##
-if [[ ! -f "$p12_file_path" ]] || ! openssl-3 x509 -checkend 86400 -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem"; then
+if [[ ! -f "$p12_file_path" ]] || ! openssl-3 x509 -checkend 0 -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem"; then
   echo "Generating the p12 certificate file."
   rm -f "$p12_file_path"
   openssl-3 pkcs12 -export -out "$p12_file_path" \
