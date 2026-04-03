@@ -21,18 +21,21 @@ letsencrypt_cert_folder=/usr/syno/etc/certificate/system/default
 # If unsure of your certs just uncomment the below, enable task to send output via email #
 # ls -al $letsencrypt_cert_folder
 cert_prefix="ECC-"
+letsencrypt_cert="$letsencrypt_cert_folder/${cert_prefix}cert.pem"
+letsencrypt_key="$letsencrypt_cert_folder/${cert_prefix}privkey.pem"
+letsencrypt_chain="$letsencrypt_cert_folder/${cert_prefix}fullchain.pem"
 
 ### Used in below scripts ###
-current_certificate_date=$(openssl-3 x509 -enddate -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem" | cut -d'=' -f2)
+current_certificate_date=$(openssl-3 x509 -enddate -noout -in $letsencrypt_cert | cut -d'=' -f2)
 
 ## Check if PFX file exists or if the certificate is past its renewal date ##
-if [[ ! -f "$p12_file_path" ]] || ! openssl-3 x509 -checkend 0 -noout -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem"; then
+if [[ ! -f "$p12_file_path" ]] || ! openssl-3 x509 -checkend 0 -noout -in $letsencrypt_cert; then
   echo "Generating the p12 certificate file."
   rm -f "$p12_file_path"
   openssl-3 pkcs12 -export -out "$p12_file_path" \
-    -in "$letsencrypt_cert_folder/${cert_prefix}cert.pem" \
-    -inkey "$letsencrypt_cert_folder/${cert_prefix}privkey.pem" \
-    -certfile "$letsencrypt_cert_folder/${cert_prefix}fullchain.pem" \
+    -in $letsencrypt_cert \
+    -inkey $letsencrypt_key \
+    -certfile $letsencrypt_chain \
     -name "$domain_name" \
     -password "pass:$p12cert_password" \
     -certpbe AES-256-CBC -keypbe AES-256-CBC -macalg SHA256
